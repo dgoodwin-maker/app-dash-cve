@@ -1,9 +1,15 @@
-const mongoose = require('mongoose');
+let db;
 
-const cveSchema = new mongoose.Schema({
-  cveId: { type: String, required: true },
-  description: { type: String, required: true },
-  source: { type: String, required: true }
-}, { timestamps: true });
+function setDatabase(database) {
+  db = database;
+}
 
-module.exports = mongoose.model('CVE', cveSchema);
+function getCVECollection() {
+  if (!db) throw new Error('Database not initialized');
+  return db.collection('cves'); // db collection
+}
+
+module.exports = {
+  setDatabase,
+  getCVECollection
+};
